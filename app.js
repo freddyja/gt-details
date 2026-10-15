@@ -120,10 +120,14 @@
     });
   })();
   if ("serviceWorker" in navigator) {
-    // Check for an update once on open; if a new version installs, reload once to apply it.
-    var hadCtrl = !!navigator.serviceWorker.controller, reloaded = false;
+    // Check for updates on open and whenever the app comes back to the foreground (throttled); reload once when a new version takes over.
+    var hadCtrl = !!navigator.serviceWorker.controller, reloaded = false, swReg = null, lastCheck = 0;
     navigator.serviceWorker.addEventListener("controllerchange", function () { if (hadCtrl && !reloaded) { reloaded = true; location.reload(); } });
-    navigator.serviceWorker.register("sw.js").then(function (reg) { reg.update(); }).catch(function () {});
+    var checkUpdate = function () { var now = Date.now(); if (!swReg || now - lastCheck < 30000) return; lastCheck = now; swReg.update().catch(function () {}); };
+    navigator.serviceWorker.register("sw.js", { updateViaCache: "none" }).then(function (reg) { swReg = reg; checkUpdate(); }).catch(function () {});
+    document.addEventListener("visibilitychange", function () { if (document.visibilityState === "visible") checkUpdate(); });
+    window.addEventListener("focus", checkUpdate);
+    window.addEventListener("pageshow", function (ev) { if (ev.persisted) checkUpdate(); });
   }
   applyLang();
 })();

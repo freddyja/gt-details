@@ -40,6 +40,8 @@
     document.getElementById("quote-empty").hidden = quote.length > 0;
     document.getElementById("subtotal").textContent = money(sum);
     localStorage.setItem("gt-quote", JSON.stringify(quote));
+    var mins = quote.reduce(function (m, q) { var s = S.filter(function (x) { return x.id === q.id; })[0]; return m + (s ? s.mins : 0); }, 0);
+    var w = document.getElementById("long-warn"); if (w) { w.hidden = mins <= 300; w.textContent = t("tooLong").replace("{h}", (Math.round(mins / 6) / 10) + ""); }
     if (window.__gtBookHref) window.__gtBookHref();
   }
 
@@ -105,7 +107,9 @@
     function smUrl(ids) { return ids.length ? "https://gtdetails.setmore.com/book?step=time-slot&products=" + ids.join(",") + "&type=service&staff=39d7ff88-83ea-407f-9eb6-60feb141f1f8&staffSelected=true" : "https://gtdetails.setmore.com"; }
     window.__gtBookHref = function () { var ids = []; quote.forEach(function (x) { var k = SM[x.id]; if (k && ids.indexOf(k) < 0) ids.push(k); }); btn.href = smUrl(ids); };
     window.__gtBookHref();
-    btn.addEventListener("click", function () {
+    btn.addEventListener("click", function (e) {
+      var tot = quote.reduce(function (m, q) { var s = S.filter(function (x) { return x.id === q.id; })[0]; return m + (s ? s.mins : 0); }, 0);
+      if (tot > 300) { e.preventDefault(); var el0 = document.getElementById("toast"); el0.textContent = t("tooLong").replace("{h}", (Math.round(tot / 6) / 10) + ""); el0.hidden = false; clearTimeout(toast.t); toast.t = setTimeout(function () { el0.hidden = true; }, 8000); return; }
       var ids = [], sum = 0, SZ = ["Small","Midsize","Large"];
       var lines = quote.map(function (x) { var s = S.filter(function (y) { return y.id === x.id; })[0]; if (!s) return ""; var k = SM[x.id]; if (k && ids.indexOf(k) < 0) ids.push(k); sum += s.prices[x.size]; return "- " + s.name.en + " (" + SZ[x.size] + "): " + money(s.prices[x.size]); }).filter(Boolean);
       btn.href = smUrl(ids);

@@ -1,0 +1,22 @@
+window.GT_I18N = {
+  en: { pageTitle: "G.T. Details — Mobile Detailing", metaDesc: "G.T. Details mobile car detailing — services, prices and booking.", skip: "Skip to services", langAria: "Language",
+    share: "Share", install: "Install app", tagline: "Mobile car detailing — we come to you.", call: "Call", text: "Text", email: "Email",
+    iosHint: "On iPhone: tap the Share icon, then “Add to Home Screen”.", category: "Mobile Detailing",
+    sizesNote: "Small = Coupe / Sedan / Compact · Midsize = SUV / Truck · Large = XL SUV / XL Truck",
+    quoteTitle: "Your quote", quoteEmpty: "Add a service to see your estimate.", subtotal: "Subtotal (estimate)",
+    taxNote: "Estimate only. Tax is calculated at booking.", book: "Book now", questions: "Questions? Contact G.T. Details at",
+    exterior: "Exterior", interior: "Interior", size: "Vehicle size", small: "Small", midsize: "Midsize", large: "Large",
+    smallSub: "Coupe/Sedan/Compact", midSub: "SUV/Truck", largeSub: "XL SUV/XL Truck",
+    duration: "Estimated duration", add: "Add to quote", remove: "Remove", added: "Added to quote", linkCopied: "Link copied",
+    shareText: "G.T. Details — mobile car detailing. See services and book:", h: "h", m: "min", installed: "App installed" },
+  es: { pageTitle: "G.T. Details — Detallado Móvil", metaDesc: "G.T. Details detallado móvil de autos — servicios, precios y reservas.", skip: "Ir a los servicios", langAria: "Idioma",
+    share: "Compartir", install: "Instalar app", tagline: "Detallado móvil de autos — vamos a donde estés.", call: "Llamar", text: "Mensaje", email: "Correo",
+    iosHint: "En iPhone: toca el ícono Compartir y luego “Agregar a inicio”.", category: "Detallado Móvil",
+    sizesNote: "Pequeño = Coupé / Sedán / Compacto · Mediano = SUV / Camioneta · Grande = SUV XL / Camioneta XL",
+    quoteTitle: "Tu cotización", quoteEmpty: "Agrega un servicio para ver tu estimado.", subtotal: "Subtotal (estimado)",
+    taxNote: "Solo es un estimado. El impuesto se calcula al reservar.", book: "Reservar ahora", questions: "¿Preguntas? Contacta a G.T. Details en",
+    exterior: "Exterior", interior: "Interior", size: "Tamaño del vehículo", small: "Pequeño", midsize: "Mediano", large: "Grande",
+    smallSub: "Coupé/Sedán/Compacto", midSub: "SUV/Camioneta", largeSub: "SUV XL/Camioneta XL",
+    duration: "Duración estimada", add: "Agregar a la cotización", remove: "Quitar", added: "Agregado a la cotización", linkCopied: "Enlace copiado",
+    shareText: "G.T. Details — detallado móvil de autos. Mira los servicios y reserva:", h: "h", m: "min", installed: "App instalada" }
+};

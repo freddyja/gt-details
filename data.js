@@ -1,11 +1,11 @@
 // Prices: [small, midsize, large]
 window.GT_SERVICES = [
-  { id: "stage1", name: { en: "Stage 1 Package – Wash & Wax", es: "Paquete Etapa 1 – Lavado y Cera" }, prices: [105,125,145], mins: 150,
+  { id: "stage1", name: { en: "Stage 1 – Wash & Wax", es: "Paquete Etapa 1 – Lavado y Cera" }, prices: [105,125,145], mins: 150,
     desc: { en: "Designed for repeat clients and/or properly maintained vehicles.", es: "Diseñado para clientes frecuentes y/o vehículos bien mantenidos." },
     groups: [
       { t: "exterior", items: { en: ["2 bucket wash","Bug removal","Wheel cleaning","Spray wax","Windows","Tire dressing"], es: ["Lavado de 2 cubetas","Remoción de insectos","Limpieza de rines","Cera en spray","Ventanas","Abrillantado de llantas"] } },
       { t: "interior", items: { en: ["Interior wipe down","Dust & vacuum"], es: ["Limpieza interior de superficies","Desempolvado y aspirado"] } } ] },
-  { id: "stage2", name: { en: "Stage 2 Package – Full Detail", es: "Paquete Etapa 2 – Detallado Completo" }, prices: [175,205,235], mins: 225,
+  { id: "stage2", name: { en: "Stage 2 – Full Detail", es: "Paquete Etapa 2 – Detallado Completo" }, prices: [175,205,235], mins: 225,
     desc: { en: "Designed to restore interior/exterior condition & protect against future contamination. Recommended for new clients.", es: "Diseñado para restaurar el interior/exterior y proteger contra contaminación futura. Recomendado para clientes nuevos." },
     groups: [
       { t: "exterior", items: { en: ["2 bucket hand wash","Bug removal","Wheel cleaning","Iron fall-out removal","Engine bay wash","Windows","Tire dressing"], es: ["Lavado a mano de 2 cubetas","Remoción de insectos","Limpieza de rines","Remoción de partículas de hierro","Lavado del motor","Ventanas","Abrillantado de llantas"] } },

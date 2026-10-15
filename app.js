@@ -106,3 +106,14 @@
   applyLang();
 })();
 
+
+// Book Now: deep-link the quoted services into Setmore so customers don't re-pick them.
+(function () {
+  var SM = { stage2: "3994676f-dc37-4eac-9198-86795946228c", stage1: "1b499e65-af27-4a06-a282-0d2a52bfbdfb", intfull: "c19a10d5-1331-44dc-8822-79d29164d80c", intstd: "4c4d46f3-8687-4ddb-b178-af8e74bc3392", extfull: "dfa1c124-f6b1-428d-8421-0b8495ad4559", extstd: "03660aca-650e-4c94-b442-d75f4da954d7" };
+  var btn = document.getElementById("book-btn"); if (!btn) return;
+  btn.addEventListener("click", function () {
+    var q = JSON.parse(localStorage.getItem("gt-quote") || "[]"), ids = [];
+    q.forEach(function (x) { var k = SM[x.id]; if (k && ids.indexOf(k) < 0) ids.push(k); });
+    btn.href = ids.length ? "https://gtdetails.setmore.com/book?step=additional-products&" + ids.map(function (k) { return "products=" + k; }).join("&") + "&type=service&staff=39d7ff88-83ea-407f-9eb6-60feb141f1f8&staffSelected=false" : "https://gtdetails.setmore.com";
+  });
+})();

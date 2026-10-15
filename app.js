@@ -65,7 +65,7 @@
   });
 
   // Book now: email the quote to G.T.
-  document.getElementById("book-form").addEventListener("submit", function (e) {
+  var _bf=document.getElementById("book-form"); _bf && _bf.addEventListener("submit", function (e) {
     e.preventDefault();
     if (!quote.length) { toast(t("needService")); return; }
     var f = e.target, sz = ["Small","Midsize","Large"], sum = 0;

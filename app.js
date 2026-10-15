@@ -100,3 +100,16 @@
   if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(function () {});
   applyLang();
 })();
+
+// Auto-refresh: every 60s check for a new deploy; reload only if changed and user isn't typing.
+(function () {
+  var base = null, pending = false;
+  function sig() { return fetch("./sw.js?t=" + Date.now(), { cache: "no-store" }).then(function (r) { return r.ok ? r.text() : null; }).catch(function () { return null; }); }
+  function busy() { var a = document.activeElement; return a && /^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName); }
+  function tryReload() { if (pending && !busy()) location.reload(); }
+  sig().then(function (s) { base = s; });
+  setInterval(function () {
+    sig().then(function (s) { if (s && base && s !== base) pending = true; if (s && !base) base = s; tryReload(); });
+  }, 60000);
+  document.addEventListener("visibilitychange", function () { if (!document.hidden) tryReload(); });
+})();

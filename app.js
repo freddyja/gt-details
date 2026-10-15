@@ -71,10 +71,10 @@
     var f = e.target, sz = ["Small","Midsize","Large"], sum = 0;
     var lines = quote.map(function (q) { var s = S.filter(function (x) { return x.id === q.id; })[0]; if (!s) return ""; sum += s.prices[q.size]; return "- " + s.name.en + " (" + sz[q.size] + "): " + money(s.prices[q.size]); });
     var body = [t("mailIntro"), "", lines.join("\n"), "Subtotal: " + money(sum), "",
-      "Name: " + f.name.value, "Phone: " + f.phone.value, "Address: " + f.addr.value,
+      "Name: " + f.name.value, "Phone: " + f.phone.value, "Email: " + f.email.value, "Address: " + f.addr.value,
       "Preferred time: " + (f.when.value ? f.when.value.replace("T", " ") : "-"), "Notes: " + f.notes.value, "Language: " + lang].join("\n");
     toast(t("sent"));
-    location.href = "mailto:g.t.details25@gmail.com?subject=" + encodeURIComponent(t("mailSubj") + " - " + f.name.value) + "&body=" + encodeURIComponent(body);
+    location.href = "sms:+15755303466" + (/iphone|ipad|ipod/i.test(navigator.userAgent) ? "&" : "?") + "body=" + encodeURIComponent(body);
   });
 
   // Share

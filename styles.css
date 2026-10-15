@@ -49,3 +49,5 @@ footer{text-align:center;color:var(--muted);font-size:.85rem;padding:1rem 1rem 2
 .ico-chip{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:.5rem;background:#1e293b;color:#3b9bff;vertical-align:middle;font-weight:700}
 .sheet-warn{color:#fbbf24}.sheet-note{color:var(--cyan);font-size:.9rem}
 .sheet-btns{display:flex;gap:.5rem;justify-content:flex-end;margin-top:1rem}
+.card .btn[data-add]{flex:0 0 auto;align-self:stretch;width:100%;height:48px;min-height:48px;max-height:48px;margin-top:auto;padding:0 1rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:center;box-sizing:border-box}
+.card .sizes{margin-bottom:.75rem}

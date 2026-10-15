@@ -39,3 +39,4 @@ footer{text-align:center;color:var(--muted);font-size:.85rem;padding:1rem 1rem 2
 .book-form{display:grid;gap:.5rem;margin-top:.75rem}
 .book-form label{display:grid;gap:.2rem;font-size:.9rem}
 .book-form input,.book-form textarea{font:inherit;padding:.55rem .6rem;border:1px solid #c9d3dd;border-radius:8px;width:100%;box-sizing:border-box}
+#sched-btn{display:block;text-align:center;margin-top:.6rem}

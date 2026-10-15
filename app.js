@@ -104,7 +104,7 @@
     btn.addEventListener("click", function () {
       var ids = [], sum = 0, SZ = ["Small","Midsize","Large"];
       var lines = quote.map(function (x) { var s = S.filter(function (y) { return y.id === x.id; })[0]; if (!s) return ""; var k = SM[x.id]; if (k && ids.indexOf(k) < 0) ids.push(k); sum += s.prices[x.size]; return "- " + s.name.en + " (" + SZ[x.size] + "): " + money(s.prices[x.size]); }).filter(Boolean);
-      btn.href = ids.length ? "https://gtdetails.setmore.com/book?step=additional-products&" + ids.map(function (k) { return "products=" + k; }).join("&") + "&type=service&staff=39d7ff88-83ea-407f-9eb6-60feb141f1f8&staffSelected=false" : "https://gtdetails.setmore.com";
+      btn.href = ids.length ? "https://gtdetails.setmore.com/book?step=additional-products&" + "products=" + ids[0] + "&type=service&staff=39d7ff88-83ea-407f-9eb6-60feb141f1f8&staffSelected=false" : "https://gtdetails.setmore.com";
       if (!lines.length) return;
       var txt = "G.T. Details quote:\n" + lines.join("\n") + "\nTotal: " + money(sum);
       try { navigator.clipboard.writeText(txt); } catch (e) {}

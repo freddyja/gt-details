@@ -97,6 +97,20 @@
   window.addEventListener("appinstalled", function () { installBtn.hidden = true; toast(t("installed")); });
   if (ios && !standalone) document.getElementById("ios-hint").hidden = false;
 
+  // Book Now: deep-link quoted services into Setmore, copy full quote to clipboard, show paste instruction.
+  (function () {
+    var SM = { stage2: "3994676f-dc37-4eac-9198-86795946228c", stage1: "1b499e65-af27-4a06-a282-0d2a52bfbdfb", intfull: "c19a10d5-1331-44dc-8822-79d29164d80c", intstd: "4c4d46f3-8687-4ddb-b178-af8e74bc3392", extfull: "dfa1c124-f6b1-428d-8421-0b8495ad4559", extstd: "03660aca-650e-4c94-b442-d75f4da954d7" };
+    var btn = document.getElementById("book-btn"); if (!btn) return;
+    btn.addEventListener("click", function () {
+      var ids = [], sum = 0, SZ = ["Small","Midsize","Large"];
+      var lines = quote.map(function (x) { var s = S.filter(function (y) { return y.id === x.id; })[0]; if (!s) return ""; var k = SM[x.id]; if (k && ids.indexOf(k) < 0) ids.push(k); sum += s.prices[x.size]; return "- " + s.name.en + " (" + SZ[x.size] + "): " + money(s.prices[x.size]); }).filter(Boolean);
+      btn.href = ids.length ? "https://gtdetails.setmore.com/book?step=additional-products&" + ids.map(function (k) { return "products=" + k; }).join("&") + "&type=service&staff=39d7ff88-83ea-407f-9eb6-60feb141f1f8&staffSelected=false" : "https://gtdetails.setmore.com";
+      if (!lines.length) return;
+      var txt = "G.T. Details quote:\n" + lines.join("\n") + "\nTotal: " + money(sum);
+      try { navigator.clipboard.writeText(txt); } catch (e) {}
+      var el = document.getElementById("toast"); el.textContent = t("pasteQuote"); el.hidden = false; clearTimeout(toast.t); toast.t = setTimeout(function () { el.hidden = true; }, 8000);
+    });
+  })();
   if ("serviceWorker" in navigator) {
     // Check for an update once on open; if a new version installs, reload once to apply it.
     var hadCtrl = !!navigator.serviceWorker.controller, reloaded = false;
@@ -107,13 +121,3 @@
 })();
 
 
-// Book Now: deep-link the quoted services into Setmore so customers don't re-pick them.
-(function () {
-  var SM = { stage2: "3994676f-dc37-4eac-9198-86795946228c", stage1: "1b499e65-af27-4a06-a282-0d2a52bfbdfb", intfull: "c19a10d5-1331-44dc-8822-79d29164d80c", intstd: "4c4d46f3-8687-4ddb-b178-af8e74bc3392", extfull: "dfa1c124-f6b1-428d-8421-0b8495ad4559", extstd: "03660aca-650e-4c94-b442-d75f4da954d7" };
-  var btn = document.getElementById("book-btn"); if (!btn) return;
-  btn.addEventListener("click", function () {
-    var q = JSON.parse(localStorage.getItem("gt-quote") || "[]"), ids = [];
-    q.forEach(function (x) { var k = SM[x.id]; if (k && ids.indexOf(k) < 0) ids.push(k); });
-    btn.href = ids.length ? "https://gtdetails.setmore.com/book?step=additional-products&" + ids.map(function (k) { return "products=" + k; }).join("&") + "&type=service&staff=39d7ff88-83ea-407f-9eb6-60feb141f1f8&staffSelected=false" : "https://gtdetails.setmore.com";
-  });
-})();

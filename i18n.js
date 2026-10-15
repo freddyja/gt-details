@@ -7,7 +7,7 @@ window.GT_I18N = {
     taxNote: "Estimate only. Tax is calculated at booking.", book: "Book now", questions: "Questions? Contact G.T. Details at",
     exterior: "Exterior", interior: "Interior", size: "Vehicle size", small: "Small", midsize: "Midsize", large: "Large",
     smallSub: "Coupe/Sedan/Compact", midSub: "SUV/Truck", largeSub: "XL SUV/XL Truck",
-    duration: "Estimated duration", add: "Add to quote", remove: "Remove", added: "Added to quote", linkCopied: "Link copied",
+    duration: "Estimated duration", add: "Add to quote", remove: "Remove", added: "Added to quote", linkCopied: "Link copied", pasteQuote: "Quote copied! On Setmore, paste it into the Quote details box.",
     shareText: "G.T. Details — mobile car detailing. See services and book:", h: "h", m: "min", installed: "App installed", fName: "Your name", fPhone: "Phone", fAddr: "Service address", fWhen: "Preferred date & time", fNotes: "Vehicle / notes", needService: "Add at least one service first.", mailSubj: "Quote request", mailIntro: "New quote request from the G.T. Details app:", sent: "Opening your text messages to send the quote to G.T.…", fEmail: "Email", sched: "Schedule online (pick a time)" },
   es: { pageTitle: "G.T. Details — Detallado Móvil", metaDesc: "G.T. Details detallado móvil de autos — servicios, precios y reservas.", skip: "Ir a los servicios", langAria: "Idioma",
     share: "Compartir", install: "Instalar app", tagline: "Detallado móvil de autos — vamos a donde estés.", call: "Llamar", text: "Mensaje", email: "Correo",
@@ -17,6 +17,6 @@ window.GT_I18N = {
     taxNote: "Solo es un estimado. El impuesto se calcula al reservar.", book: "Reservar ahora", questions: "¿Preguntas? Contacta a G.T. Details en",
     exterior: "Exterior", interior: "Interior", size: "Tamaño del vehículo", small: "Pequeño", midsize: "Mediano", large: "Grande",
     smallSub: "Coupé/Sedán/Compacto", midSub: "SUV/Camioneta", largeSub: "SUV XL/Camioneta XL",
-    duration: "Duración estimada", add: "Agregar a la cotización", remove: "Quitar", added: "Agregado a la cotización", linkCopied: "Enlace copiado",
+    duration: "Duración estimada", add: "Agregar a la cotización", remove: "Quitar", added: "Agregado a la cotización", linkCopied: "Enlace copiado", pasteQuote: "¡Cotización copiada! En Setmore, péguela en la casilla Quote details.",
     shareText: "G.T. Details — detallado móvil de autos. Mira los servicios y reserva:", h: "h", m: "min", installed: "App instalada", fName: "Tu nombre", fPhone: "Teléfono", fAddr: "Dirección del servicio", fWhen: "Fecha y hora preferida", fNotes: "Vehículo / notas", needService: "Primero agrega al menos un servicio.", mailSubj: "Solicitud de cotización", mailIntro: "Nueva solicitud de cotización desde la app de G.T. Details:", sent: "Abriendo tus mensajes de texto para enviar la cotización a G.T.…", fEmail: "Correo electrónico", sched: "Agendar en línea (elige un horario)" }
 };

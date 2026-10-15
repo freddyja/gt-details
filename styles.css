@@ -42,3 +42,10 @@ footer{text-align:center;color:var(--muted);font-size:.85rem;padding:1rem 1rem 2
 #sched-btn{display:block;text-align:center;margin-top:.6rem}
 
 .long-warn{background:#fff4e5;border:1px solid #f5a623;color:#7a4a00;border-radius:8px;padding:.6rem .75rem;margin:.6rem 0;font-size:.92rem}
+.sheet-wrap{position:fixed;inset:0;background:rgba(0,0,0,.6);display:flex;align-items:flex-end;justify-content:center;z-index:30}
+.sheet{background:#0f172a;border:1px solid var(--cyan);border-radius:1rem 1rem 0 0;padding:1.25rem 1.25rem calc(1.25rem + env(safe-area-inset-bottom));max-width:520px;width:100%}
+.sheet h2{margin:0 0 .75rem;font-size:1.15rem}
+.steps{padding-left:1.25rem;line-height:1.6}.steps li{margin:.5rem 0}
+.ico-chip{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:.5rem;background:#1e293b;color:#3b9bff;vertical-align:middle;font-weight:700}
+.sheet-warn{color:#fbbf24}.sheet-note{color:var(--cyan);font-size:.9rem}
+.sheet-btns{display:flex;gap:.5rem;justify-content:flex-end;margin-top:1rem}

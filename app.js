@@ -80,25 +80,65 @@
     location.href = "sms:+15755303466" + (/iphone|ipad|ipod/i.test(navigator.userAgent) ? "&" : "?") + "body=" + encodeURIComponent(body);
   });
 
-  // Share
+  // Share (navigator.share is called synchronously inside the click — iOS needs the user gesture)
+  var IS = {
+    en: { iosTitle: "Install G.T. Details on iPhone", s1: "Tap the Share button", s1b: "at the bottom (or top) of Safari.", s2: "Scroll down and tap “Add to Home Screen”.", s3: "Tap “Add”. The app icon appears on your home screen.",
+      openSafari: "To install, open this page in Safari: tap ⋯ or the menu and choose “Open in Safari” (or copy the link and paste it in Safari).", chromeIos: "In Chrome on iPhone: tap the Share button next to the address bar, then “Add to Home Screen”.",
+      andTitle: "Install G.T. Details", and1: "Open the browser menu ⋮ (top right).", and2: "Tap “Install app” or “Add to Home screen”.", and3: "Confirm with “Install” / “Add”.", close: "Got it", copyLink: "Copy link" },
+    es: { iosTitle: "Instala G.T. Details en tu iPhone", s1: "Toca el botón Compartir", s1b: "abajo (o arriba) en Safari.", s2: "Desliza y toca “Agregar a inicio”.", s3: "Toca “Agregar”. El ícono de la app aparecerá en tu pantalla de inicio.",
+      openSafari: "Para instalar, abre esta página en Safari: toca ⋯ o el menú y elige “Abrir en Safari” (o copia el enlace y pégalo en Safari).", chromeIos: "En Chrome para iPhone: toca el botón Compartir junto a la barra de direcciones y luego “Agregar a inicio”.",
+      andTitle: "Instala G.T. Details", and1: "Abre el menú del navegador ⋮ (arriba a la derecha).", and2: "Toca “Instalar app” o “Agregar a la pantalla principal”.", and3: "Confirma con “Instalar” / “Agregar”.", close: "Entendido", copyLink: "Copiar enlace" }
+  };
+  var s = function (k) { return (IS[lang] || IS.en)[k]; };
+  var pageUrl = function () { return location.origin + location.pathname; };
+  function copyLink() {
+    var url = pageUrl();
+    var done = function () { toast(t("linkCopied")); };
+    if (navigator.clipboard && window.isSecureContext) { navigator.clipboard.writeText(url).then(done, fallbackCopy); } else fallbackCopy();
+    function fallbackCopy() { var ta = document.createElement("textarea"); ta.value = url; ta.setAttribute("readonly", ""); ta.style.position = "fixed"; ta.style.opacity = "0"; document.body.appendChild(ta); ta.select(); ta.setSelectionRange(0, url.length); var ok = false; try { ok = document.execCommand("copy"); } catch (e) {} document.body.removeChild(ta); if (ok) done(); else window.prompt(t("share"), url); }
+  }
   document.getElementById("share-btn").addEventListener("click", function () {
-    var url = location.href.split("#")[0];
-    if (navigator.share) { navigator.share({ title: "G.T. Details", text: t("shareText"), url: url }).catch(function () {}); return; }
-    (navigator.clipboard ? navigator.clipboard.writeText(url) : Promise.reject()).then(function () { toast(t("linkCopied")); }, function () { window.prompt(t("share"), url); });
+    var data = { title: "G.T. Details", text: t("shareText"), url: pageUrl() };
+    if (navigator.share && (!navigator.canShare || navigator.canShare(data))) {
+      navigator.share(data).catch(function (err) { if (err && err.name === "AbortError") return; copyLink(); });
+      return;
+    }
+    copyLink();
   });
 
   // Install
-  var deferred = null, installBtn = document.getElementById("install-btn");
-  var standalone = window.matchMedia("(display-mode: standalone)").matches || navigator.standalone;
-  var ios = /iphone|ipad|ipod/i.test(navigator.userAgent);
+  var deferred = null, installBtn = document.getElementById("install-btn"), ua = navigator.userAgent;
+  var standalone = window.matchMedia("(display-mode: standalone)").matches || navigator.standalone === true;
+  var ios = /iphone|ipad|ipod/i.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+  var inApp = /FBAN|FBAV|FB_IAB|Instagram|Line\/|Snapchat|TikTok|Twitter|LinkedInApp|GSA\//i.test(ua);
+  var iosChrome = ios && /CriOS|EdgiOS|FxiOS/i.test(ua);
+  var iosVer = (ua.match(/OS (\d+)_(\d+)/) || [0, 0, 0]); var iosNum = +iosVer[1] + iosVer[2] / 100;
+  var shareSvg = '<svg class="share-ico" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M12 3v12M8 7l4-4 4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 11H5v10h14V11h-1" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
+  function sheet(html) {
+    var old = document.getElementById("install-sheet"); if (old) old.remove();
+    var w = document.createElement("div"); w.id = "install-sheet"; w.className = "sheet-wrap"; w.setAttribute("role", "dialog"); w.setAttribute("aria-modal", "true");
+    w.innerHTML = '<div class="sheet">' + html + '<div class="sheet-btns"><button type="button" class="ghost" data-sheet-copy>' + s("copyLink") + '</button><button type="button" class="btn primary" data-sheet-close>' + s("close") + '</button></div></div>';
+    w.addEventListener("click", function (e) { if (e.target === w || e.target.hasAttribute("data-sheet-close")) w.remove(); else if (e.target.hasAttribute("data-sheet-copy")) copyLink(); });
+    document.body.appendChild(w);
+  }
+  function showIosSheet() {
+    var body = '<h2>' + s("iosTitle") + '</h2>';
+    if (inApp || (iosChrome && iosNum < 16.4)) body += '<p class="sheet-warn">' + s("openSafari") + '</p>';
+    else {
+      if (iosChrome) body += '<p class="sheet-note">' + s("chromeIos") + '</p>';
+      body += '<ol class="steps"><li>' + s("s1") + ' <span class="ico-chip">' + shareSvg + '</span> ' + s("s1b") + '</li><li>' + s("s2") + ' <span class="ico-chip">＋</span></li><li>' + s("s3") + '</li></ol>';
+    }
+    sheet(body);
+  }
+  function showAndroidSheet() { sheet('<h2>' + s("andTitle") + '</h2><ol class="steps"><li>' + s("and1") + '</li><li>' + s("and2") + '</li><li>' + s("and3") + '</li></ol>'); }
   if (standalone) installBtn.hidden = true;
   window.addEventListener("beforeinstallprompt", function (e) { e.preventDefault(); deferred = e; });
   installBtn.addEventListener("click", function () {
-    if (deferred) { deferred.prompt(); deferred.userChoice.finally(function () { deferred = null; }); }
-    else { document.getElementById("ios-hint").hidden = false; }
+    if (deferred) { var d = deferred; deferred = null; d.prompt(); (d.userChoice || Promise.resolve()).then(function (c) { if (c && c.outcome === "accepted") installBtn.hidden = true; }); return; }
+    if (ios) showIosSheet(); else showAndroidSheet();
   });
   window.addEventListener("appinstalled", function () { installBtn.hidden = true; toast(t("installed")); });
-  if (ios && !standalone) document.getElementById("ios-hint").hidden = false;
+  window.__gtInstall = { ios: ios, inApp: inApp, standalone: standalone };
 
   // Book Now: deep-link quoted services into Setmore, copy full quote to clipboard, show paste instruction.
   (function () {

@@ -1,4 +1,4 @@
-const CACHE_NAME = "gt-details-v14";
+const CACHE_NAME = "gt-details-v15";
 const APP_SHELL = ["./","./index.html","./styles.css","./data.js","./i18n.js","./app.js","./manifest.webmanifest","./icons/gt-180.png","./icons/gt-192.png","./icons/gt-512.png","./icons/logo.svg"];
 self.addEventListener("install", (e) => { e.waitUntil(caches.open(CACHE_NAME).then((c) => c.addAll(APP_SHELL))); self.skipWaiting(); });
 self.addEventListener("activate", (e) => { e.waitUntil(caches.keys().then((ks) => Promise.all(ks.filter((k) => k !== CACHE_NAME).map((k) => caches.delete(k))))); self.clients.claim(); });

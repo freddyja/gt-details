@@ -40,6 +40,7 @@
     document.getElementById("quote-empty").hidden = quote.length > 0;
     document.getElementById("subtotal").textContent = money(sum);
     localStorage.setItem("gt-quote", JSON.stringify(quote));
+    if (window.__gtBookHref) window.__gtBookHref();
   }
 
   function applyLang() {
@@ -101,10 +102,13 @@
   (function () {
     var SM = { stage2: "3994676f-dc37-4eac-9198-86795946228c", stage1: "1b499e65-af27-4a06-a282-0d2a52bfbdfb", intfull: "c19a10d5-1331-44dc-8822-79d29164d80c", intstd: "4c4d46f3-8687-4ddb-b178-af8e74bc3392", extfull: "dfa1c124-f6b1-428d-8421-0b8495ad4559", extstd: "03660aca-650e-4c94-b442-d75f4da954d7" };
     var btn = document.getElementById("book-btn"); if (!btn) return;
+    function smUrl(ids) { return ids.length ? "https://gtdetails.setmore.com/book?step=time-slot&products=" + ids.join(",") + "&type=service&staff=39d7ff88-83ea-407f-9eb6-60feb141f1f8&staffSelected=true" : "https://gtdetails.setmore.com"; }
+    window.__gtBookHref = function () { var ids = []; quote.forEach(function (x) { var k = SM[x.id]; if (k && ids.indexOf(k) < 0) ids.push(k); }); btn.href = smUrl(ids); };
+    window.__gtBookHref();
     btn.addEventListener("click", function () {
       var ids = [], sum = 0, SZ = ["Small","Midsize","Large"];
       var lines = quote.map(function (x) { var s = S.filter(function (y) { return y.id === x.id; })[0]; if (!s) return ""; var k = SM[x.id]; if (k && ids.indexOf(k) < 0) ids.push(k); sum += s.prices[x.size]; return "- " + s.name.en + " (" + SZ[x.size] + "): " + money(s.prices[x.size]); }).filter(Boolean);
-      btn.href = ids.length ? "https://gtdetails.setmore.com/book?step=additional-products&" + "products=" + ids.join(",") + "&type=service&staff=39d7ff88-83ea-407f-9eb6-60feb141f1f8&staffSelected=false" : "https://gtdetails.setmore.com";
+      btn.href = smUrl(ids);
       if (!lines.length) return;
       var txt = "G.T. Details quote: " + lines.map(function (l) { return l.replace(/^- /, ""); }).join("; ") + "; Total: " + money(sum);
       try { navigator.clipboard.writeText(txt); } catch (e) {}
